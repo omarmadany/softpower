@@ -34,6 +34,16 @@
             </intent-filter>
         </activity>
 
+        <!-- ── Floating Button Service ─────────────────── -->
+        <service
+            android:name=".service.SoftPowerService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Floating lock button that locks the screen on tap" />
+        </service>
+
         <!-- ── Accessibility Service ───────────────────── -->
         <service
             android:name=".service.PowerAccessibilityService"

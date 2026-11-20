@@ -5,4 +5,9 @@
     <string name="toggle_description">Toggle SoftPower</string>
     <string name="accessibility_description">Lets SoftPower lock the screen and use the volume keys as a power button. SoftPower has no internet access and collects no data.</string>
     <string name="floating_button_description">Lock screen</string>
+    <string name="notification_channel_name">SoftPower service</string>
+    <string name="notification_title">SoftPower is active</string>
+    <string name="notification_text">Tap the floating button to lock the screen</string>
+    <string name="permission_overlay_needed">Allow "Display over other apps" for SoftPower</string>
+    <string name="permission_accessibility_needed">Enable SoftPower in Accessibility settings</string>
 </resources>
