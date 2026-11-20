@@ -3,4 +3,6 @@
     <string name="status_on">ON</string>
     <string name="status_off">OFF</string>
     <string name="toggle_description">Toggle SoftPower</string>
+    <string name="accessibility_description">Lets SoftPower lock the screen and use the volume keys as a power button. SoftPower has no internet access and collects no data.</string>
+    <string name="floating_button_description">Lock screen</string>
 </resources>
