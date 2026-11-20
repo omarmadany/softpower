@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">SoftPower</string>
+    <string name="status_on">ON</string>
+    <string name="status_off">OFF</string>
+    <string name="toggle_description">Toggle SoftPower</string>
 </resources>
