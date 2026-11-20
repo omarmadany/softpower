@@ -1,5 +1,6 @@
 package com.softpower
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ArgbEvaluator
@@ -7,16 +8,21 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.widget.ImageViewCompat
+import com.softpower.service.SoftPowerService
+import com.softpower.util.PermissionHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,15 +36,25 @@ class MainActivity : AppCompatActivity() {
     private var colorAnimator: ValueAnimator? = null
     private var pulseAnimator: ValueAnimator? = null
 
+    // ── Permission Launchers ───────────────────────────
+    private val notificationLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (!granted) showToast(R.string.permission_notifications_denied)
+            continueEnabling()
+        }
+
     // ── Lifecycle ──────────────────────────────────────
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bindViews()
-        isPowerOn = loadPowerState()
-        renderStateInstantly()
         powerButton.setOnClickListener { onPowerButtonClicked() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncStateWithPermissions()
     }
 
     override fun onDestroy() {
@@ -56,11 +72,52 @@ class MainActivity : AppCompatActivity() {
 
     // ── Click Handling ─────────────────────────────────
     private fun onPowerButtonClicked() {
-        isPowerOn = !isPowerOn
-        savePowerState(isPowerOn)
+        if (isPowerOn) {
+            setPowerState(false)
+            return
+        }
+        startEnableFlow()
+    }
+
+    // ── Enable Flow ────────────────────────────────────
+    private fun startEnableFlow() {
+        if (!PermissionHelper.hasNotificationPermission(this)) {
+            notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            return
+        }
+        continueEnabling()
+    }
+
+    private fun continueEnabling() {
+        if (!PermissionHelper.canDrawOverlays(this)) {
+            showToast(R.string.permission_overlay_needed)
+            startActivity(PermissionHelper.overlaySettingsIntent(this))
+            return
+        }
+        if (!PermissionHelper.isAccessibilityEnabled()) {
+            showToast(R.string.permission_accessibility_needed)
+            startActivity(PermissionHelper.accessibilitySettingsIntent())
+            return
+        }
+        setPowerState(true)
+    }
+
+    // ── State Handling ─────────────────────────────────
+    private fun setPowerState(enabled: Boolean) {
+        isPowerOn = enabled
+        savePowerState(enabled)
+        if (enabled) SoftPowerService.start(this) else SoftPowerService.stop(this)
         playPressAnimation()
-        animateColors(isPowerOn)
-        updatePulse(isPowerOn)
+        animateColors(enabled)
+        updatePulse(enabled)
+    }
+
+    private fun syncStateWithPermissions() {
+        val shouldBeOn = loadPowerState() && PermissionHelper.hasAllRequiredPermissions(this)
+        isPowerOn = shouldBeOn
+        savePowerState(shouldBeOn)
+        if (shouldBeOn) SoftPowerService.start(this)
+        renderStateInstantly()
     }
 
     // ── Rendering ──────────────────────────────────────
@@ -163,6 +220,11 @@ class MainActivity : AppCompatActivity() {
             .edit()
             .putBoolean(KEY_POWER_ENABLED, enabled)
             .apply()
+    }
+
+    // ── Helpers ────────────────────────────────────────
+    private fun showToast(messageRes: Int) {
+        Toast.makeText(this, messageRes, Toast.LENGTH_LONG).show()
     }
 
     // ── Constants ──────────────────────────────────────
