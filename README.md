@@ -24,6 +24,15 @@
 
 It runs as an Accessibility Service, so it works in the background without a heavy footprint, and it uses no internet connection and collects no data.
 
+## Features
+
+- Wake the screen with a **double press of Volume Up**
+- **Floating power button** you can use from any screen
+- **Animated power toggle** to start and stop the service
+- Splash screen on launch
+- Light and dark theme support
+- Works offline, with no ads and no data collection
+
 ## Demo
 
 <p align="center">
@@ -95,7 +104,7 @@ Open the project in Android Studio, let Gradle sync, then press **Run**.
 
 ## Contact
 
-Built by **Omar Madany**.
+Built by **Omar Madani**.
 
 - Email: [omar.madanni@gmail.com](mailto:omar.madanni@gmail.com)
 - WhatsApp: [Click here to chat](https://wa.me/201021374317)
