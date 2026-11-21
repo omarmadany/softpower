@@ -54,12 +54,25 @@ softpower/
 ├── app/
 │   └── src/main/
 │       ├── java/com/softpower/
-│       │   └── service/
-│       │       └── PowerAccessibilityService.kt   # Core logic: double-press detection and wake
-│       ├── res/                                    # Layouts, strings, icons, accessibility config
-│       └── AndroidManifest.xml                     # Service declaration and permissions
-├── docs/                                           # Logo and demo GIF
+│       │   ├── MainActivity.kt                    # Main screen and app entry point
+│       │   ├── service/
+│       │   │   ├── PowerAccessibilityService.kt   # Detects double Volume Up press and wakes the screen
+│       │   │   ├── SoftPowerService.kt            # Background service
+│       │   │   └── FloatingButton.kt              # Floating power button
+│       │   └── util/
+│       │       └── PermissionHelper.kt            # Permission checks and requests
+│       ├── res/
+│       │   ├── drawable/                          # Icons and shapes
+│       │   ├── layout/                            # Screen layouts
+│       │   ├── mipmap-anydpi/                     # App launcher icon
+│       │   ├── values/                            # Strings, colors, themes
+│       │   ├── values-night/                      # Dark theme
+│       │   └── xml/                               # Accessibility service config
+│       └── AndroidManifest.xml                    # Services declaration and permissions
+├── docs/                                          # Logo and demo GIF
+├── gradle/                                        # Gradle wrapper
 ├── build.gradle.kts
+├── settings.gradle.kts
 └── README.md
 ```
 
@@ -85,4 +98,4 @@ Open the project in Android Studio, let Gradle sync, then press **Run**.
 Built by **Omar Madany**.
 
 - Email: [omar.madanni@gmail.com](mailto:omar.madanni@gmail.com)
-- WhatsApp: [wa.me/201021374317](https://wa.me/201021374317)
+- WhatsApp: [Click here to chat](https://wa.me/201021374317)
