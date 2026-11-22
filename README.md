@@ -102,9 +102,14 @@ cd softpower
 
 Open the project in Android Studio, let Gradle sync, then press **Run**.
 
+
 ## Contact
 
-Built by **Omar Madani**.
 
-- Email: [omar.madanni@gmail.com](mailto:omar.madanni@gmail.com)
-- WhatsApp: [Click here to chat](https://wa.me/201021374317)
+
+- [omar.madanni@gmail.com](mailto:omar.madanni@gmail.com)
+- [WhatsApp](https://wa.me/201021374317)
+- [LinkedIn](https://www.linkedin.com/in/omarmadanni/)
+- [Facebook](https://www.facebook.com/omar.madanni)
+- [Instagram](https://www.instagram.com/omar.madanni/)
+- [Website](https://omarmadanni.com/)
